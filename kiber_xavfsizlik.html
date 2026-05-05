@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kiber-xavfsizlik</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #00ff41; /* Xakerlar yashil rangi */
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .shield-container {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 40px;
+            border: 1px solid #00ff41;
+            box-shadow: 0 0 20px #00ff41;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+        }
+        h1 { font-size: 24px; text-transform: uppercase; letter-spacing: 3px; }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            font-size: 18px;
+            margin-top: 20px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .strength-meter {
+            height: 10px;
+            width: 100%;
+            background: #222;
+            margin-top: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        #progress {
+            height: 100%;
+            width: 0%;
+            transition: 0.5s;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+        }
+        .status { font-weight: bold; color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="shield-container">
+    <h1>Cyber Shield v1.0</h1>
+    <p>Parol xavfsizligini tekshirish</p>
+    
+    <input type="password" id="passwordInput" placeholder="Parolni kiriting..." oninput="analyzePassword()">
+    
+    <div class="strength-meter">
+        <div id="progress"></div>
+    </div>
+
+    <div class="info">
+        <div>Holat: <span id="status" class="status">Kutilmoqda...</span></div>
+        <div style="margin-top: 10px;">Buzish uchun ketadigan vaqt: <span id="time" class="status">-</span></div>
+    </div>
+</div>
+
+<script>
+    function analyzePassword() {
+        const pass = document.getElementById('passwordInput').value;
+        const progress = document.getElementById('progress');
+        const status = document.getElementById('status');
+        const timeDisplay = document.getElementById('time');
+        
+        let score = 0;
+        if (pass.length > 0) score += 10;
+        if (pass.length > 8) score += 20;
+        if (/[0-9]/.test(pass)) score += 20;
+        if (/[a-z]/.test(pass) && /[A-Z]/.test(pass)) score += 20;
+        if (/[^A-Za-z0-9]/.test(pass)) score += 30;
+
+        // Progress bar rangini va kengligini yangilash
+        progress.style.width = score + "%";
+        
+        if (score < 30) {
+            progress.style.backgroundColor = "#ff4d4d";
+            status.textContent = "JUDA ZAIF";
+            timeDisplay.textContent = "1 soniya";
+        } else if (score < 60) {
+            progress.style.backgroundColor = "#ffa500";
+            status.textContent = "O'RTA";
+            timeDisplay.textContent = "2 daqiqa";
+        } else if (score < 90) {
+            progress.style.backgroundColor = "#ffff00";
+            status.textContent = "KUCHLI";
+            timeDisplay.textContent = "5 yil";
+        } else {
+            progress.style.backgroundColor = "#00ff41";
+            status.textContent = "MUKAMMAL";
+            timeDisplay.textContent = "800+ asr";
+        }
+
+        if (pass === "") {
+            progress.style.width = "0%";
+            status.textContent = "Kutilmoqda...";
+            timeDisplay.textContent = "-";
+        }
+    }
+</script>
+
+</body>
+</html>
